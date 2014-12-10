@@ -59,20 +59,20 @@ set shiftwidth=4    " indent width
 " set smarttab
 set expandtab       " expand tab to space
 
-autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
-autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+"autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+"autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+"autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+"autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+"autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+"autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
+"autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 
 " syntax support
-autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
+"autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
 " js
-let g:html_indent_inctags = "html,body,head,tbody"
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
+"let g:html_indent_inctags = "html,body,head,tbody"
+"let g:html_indent_script1 = "inc"
+"let g:html_indent_style1 = "inc"
 
 "-----------------
 " Plugin settings
@@ -97,7 +97,7 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ]
 let g:rbpt_max = 16
-autocmd Syntax lisp,scheme,clojure,racket RainbowParenthesesToggle
+"autocmd Syntax lisp,scheme,clojure,racket RainbowParenthesesToggle
 
 " tabbar
 let g:Tb_MaxSize = 2
@@ -118,29 +118,29 @@ let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
 " tag for coffee
-if executable('coffeetags')
-  let g:tagbar_type_coffee = {
-        \ 'ctagsbin' : 'coffeetags',
-        \ 'ctagsargs' : '',
-        \ 'kinds' : [
-        \ 'f:functions',
-        \ 'o:object',
-        \ ],
-        \ 'sro' : ".",
-        \ 'kind2scope' : {
-        \ 'f' : 'object',
-        \ 'o' : 'object',
-        \ }
-        \ }
+"if executable('coffeetags')
+""  let g:tagbar_type_coffee = {
+""        \ 'ctagsbin' : 'coffeetags',
+""        \ 'ctagsargs' : '',
+""        \ 'kinds' : [
+""        \ 'f:functions',
+""        \ 'o:object',
+""        \ ],
+""        \ 'sro' : ".",
+""        \ 'kind2scope' : {
+""        \ 'f' : 'object',
+""        \ 'o' : 'object',
+""        \ }
+""        \ }
 
-  let g:tagbar_type_markdown = {
-    \ 'ctagstype' : 'markdown',
-    \ 'sort' : 0,
-    \ 'kinds' : [
-        \ 'h:sections'
-    \ ]
-    \ }
-endif
+""  let g:tagbar_type_markdown = {
+""    \ 'ctagstype' : 'markdown',
+""    \ 'sort' : 0,
+""    \ 'kinds' : [
+""        \ 'h:sections'
+""    \ ]
+""    \ }
+"endif
 
 " Nerd Tree
 let NERDChristmasTree=0
@@ -157,7 +157,7 @@ let NERDSpaceDelims=1
 let NERDCompactSexyComs=1
 
 " ZenCoding
-let g:user_emmet_expandabbr_key='<C-j>'
+"let g:user_emmet_expandabbr_key='<C-j>'
 
 " powerline
 "let g:Powerline_symbols = 'fancy'
@@ -178,9 +178,9 @@ imap <C-l> <Plug>(neocomplcache_snippets_force_jump)
 smap <C-l> <Plug>(neocomplcache_snippets_force_jump)
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
 if !exists('g:neocomplcache_omni_patterns')
@@ -198,12 +198,13 @@ set wildignore+=*/tmp/*,*.so,*.o,*.a,*.obj,*.swp,*.zip,*.pyc,*.pyo,*.class,.DS_S
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 
 " Keybindings for plugin toggle
-nnoremap <F2> :set invpaste paste?<CR>
+nnoremap <C-F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-nmap <F5> :TagbarToggle<cr>
-nmap <F6> :NERDTreeToggle<cr>
-nmap <F3> :GundoToggle<cr>
-nmap <F4> :IndentGuidesToggle<cr>
+nmap <C-F5> :TagbarToggle<cr>
+nmap <C-F6> :NERDTreeToggle<cr>
+nmap <C-F3> :GundoToggle<cr>
+nmap <C-F4> :IndentGuidesToggle<cr>
+nmap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Ack
 nnoremap <leader>v V`]
@@ -247,37 +248,17 @@ nnoremap ; :
 :command Qa qa
 :command QA qa
 
-" for macvim
-if has("gui_running")
-    set go=aAce  " remove toolbar
-    "set transparency=30
-    set guifont=Monaco:h13
-    set showtabline=2
-    set columns=140
-    set lines=40
-    noremap <D-M-Left> :tabprevious<cr>
-    noremap <D-M-Right> :tabnext<cr>
-    map <D-1> 1gt
-    map <D-2> 2gt
-    map <D-3> 3gt
-    map <D-4> 4gt
-    map <D-5> 5gt
-    map <D-6> 6gt
-    map <D-7> 7gt
-    map <D-8> 8gt
-    map <D-9> 9gt
-    map <D-0> :tablast<CR>
-endif
+
+set guifont=Ubuntu\ Mono\ 12
 
 if has('cscope')
-    if filereadable("cscope.out")
-        cs add cscope.out
-    endif
-    set cscopetag cscopeverbose
+    set cscopetag
+    set csto=0
+    
+    cs add cscope.out
+    set cscopeverbose
 
-    if has('quickfix')
-        set cscopequickfix=s-,c-,d-,i-,t-,e-
-    endif
+    "set cscopequickfix=s-,c-,d-,i-,t-,e-
 
     cnoreabbrev csa cs add
     cnoreabbrev csf cs find
@@ -285,6 +266,16 @@ if has('cscope')
     cnoreabbrev csr cs reset
     cnoreabbrev css cs show
     cnoreabbrev csh cs help
+
+    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>  
+    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>  
+
 
 endif
 
