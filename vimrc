@@ -14,7 +14,7 @@ syntax enable
 " Vim UI
 "--------
 " color scheme
-"set background=dark
+set background=dark
 "color solarized
 colors Tomorrow-Night-Bright
 
@@ -77,6 +77,10 @@ set expandtab       " expand tab to space
 "-----------------
 " Plugin settings
 "-----------------
+let g:indent_guides_auto_colors = 1
+let g:indent_guides_start_level=1
+let g:indent_guides_guide_size=1
+
 " Rainbow parentheses for Lisp and variants
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
@@ -202,8 +206,8 @@ nnoremap <C-F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 nmap <C-F5> :TagbarToggle<cr>
 nmap <C-F6> :NERDTreeToggle<cr>
-nmap <C-F3> :GundoToggle<cr>
-nmap <C-F4> :IndentGuidesToggle<cr>
+nmap <F3> :GundoToggle<cr>
+nmap <F4> :IndentGuidesToggle<cr>
 nmap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Ack
@@ -254,27 +258,36 @@ set guifont=Ubuntu\ Mono\ 12
 if has('cscope')
     set cscopetag
     set csto=0
-    
+
     cs add cscope.out
     set cscopeverbose
 
     "set cscopequickfix=s-,c-,d-,i-,t-,e-
 
     cnoreabbrev csa cs add
+
     cnoreabbrev csf cs find
+    cnoreabbrev csfs cs find s
+    cnoreabbrev csfc cs find c
+    cnoreabbrev csfe cs find e
+    cnoreabbrev csft cs find t
+    cnoreabbrev csfd cs find d
+    cnoreabbrev csfi cs find i
+    cnoreabbrev csfg cs find g
+
     cnoreabbrev csk cs kill
     cnoreabbrev csr cs reset
     cnoreabbrev css cs show
     cnoreabbrev csh cs help
 
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>  
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>  
+    nmap <Tab-s> :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR 
+    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR 
+    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR 
     nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>  
+    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR> 
 
 
 endif
