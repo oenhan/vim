@@ -29,6 +29,7 @@ set incsearch
 set ignorecase
 set smartcase
 
+
 " editor settings
 set history=1000
 set nocompatible
@@ -48,6 +49,8 @@ set laststatus=2                                                  " use 2 lines 
 set matchtime=2                                                   " show matching bracket for 0.2 seconds
 set matchpairs+=<:>                                               " specially for html
 " set relativenumber
+"set autochdir
+
 
 " Default Indentation
 set autoindent
@@ -202,10 +205,10 @@ set wildignore+=*/tmp/*,*.so,*.o,*.a,*.obj,*.swp,*.zip,*.pyc,*.pyo,*.class,.DS_S
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 
 " Keybindings for plugin toggle
-nnoremap <C-F2> :set invpaste paste?<CR>
+nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-nmap <C-F5> :TagbarToggle<cr>
-nmap <C-F6> :NERDTreeToggle<cr>
+nmap <F5> :TagbarToggle<cr>
+nmap <F6> :NERDTreeToggle<cr>
 nmap <F3> :GundoToggle<cr>
 nmap <F4> :IndentGuidesToggle<cr>
 nmap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
