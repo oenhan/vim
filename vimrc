@@ -211,6 +211,7 @@ nmap <F5> :TagbarToggle<cr>
 nmap <F6> :NERDTreeToggle<cr>
 nmap <F3> :GundoToggle<cr>
 nmap <F4> :IndentGuidesToggle<cr>
+nmap <C-F11> :!cscope -bRq
 nmap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
 nmap  <D-/> :
 nnoremap <leader>a :Ack
