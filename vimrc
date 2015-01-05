@@ -29,7 +29,6 @@ set incsearch
 set ignorecase
 set smartcase
 
-
 " editor settings
 set history=1000
 set nocompatible
