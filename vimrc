@@ -54,12 +54,12 @@ set matchpairs+=<:>                                               " specially fo
 " Default Indentation
 set autoindent
 set smartindent     " indent when
-set tabstop=4       " tab width
-set softtabstop=4   " backspace
-set shiftwidth=4    " indent width
-" set textwidth=79
-" set smarttab
-set expandtab       " expand tab to space
+set tabstop=8       " tab width
+set softtabstop=8   " backspace
+set shiftwidth=8    " indent width
+set textwidth=80
+set smarttab
+"set expandtab       " expand tab to space
 
 "autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 "autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
