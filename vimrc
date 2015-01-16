@@ -256,7 +256,7 @@ nnoremap ; :
 :command QA qa
 
 
-set guifont=Ubuntu\ Mono\ 12
+set guifont=Ubuntu\ Mono\ 14
 
 if has('cscope')
     set cscopetag
