@@ -1,3 +1,10 @@
+""""""""""""""""""""""""""""""""""""""""""""""
+" OenHan's vim config
+"
+" Maintainer:	Oen Han <oenhan#gmail.com>
+" Last change:	2015-09-11
+""""""""""""""""""""""""""""""""""""""""""""'"
+
 source ~/.vim/bundles.vim
 
 " encoding dectection
@@ -10,18 +17,18 @@ filetype plugin indent on
 syntax on
 syntax enable
 
-"--------
-" Vim UI
-"--------
+""""""""""""""""""
+" Vim UI CONFIG
+""""""""""""""""""
 " color scheme
 set background=dark
 "color solarized
 colors Tomorrow-Night-Bright
 
-" highlight current line
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline cursorcolumn
-set cursorline cursorcolumn
+" Highlight current line
+"au WinLeave * set nocursorline nocursorcolumn
+"au WinEnter * set cursorline cursorcolumn
+"set cursorline cursorcolumn
 
 " search
 set incsearch
@@ -47,8 +54,11 @@ set title                                                         " show file in
 set laststatus=2                                                  " use 2 lines for the status bar
 set matchtime=2                                                   " show matching bracket for 0.2 seconds
 set matchpairs+=<:>                                               " specially for html
-" set relativenumber
+set ruler							  " Show the cursor position all the time
+"set relativenumber
 "set autochdir
+" Display extra whitespace
+set list listchars=tab:»·,trail:·
 
 
 " Default Indentation
@@ -61,20 +71,10 @@ set textwidth=80
 set smarttab
 "set expandtab       " expand tab to space
 
-"autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-"autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-"autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-"autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+
 "autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 "autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
-"autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 
-" syntax support
-"autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
-" js
-"let g:html_indent_inctags = "html,body,head,tbody"
-"let g:html_indent_script1 = "inc"
-"let g:html_indent_style1 = "inc"
 
 "-----------------
 " Plugin settings
@@ -83,27 +83,6 @@ let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
 
-" Rainbow parentheses for Lisp and variants
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-let g:rbpt_max = 16
-"autocmd Syntax lisp,scheme,clojure,racket RainbowParenthesesToggle
 
 " tabbar
 let g:Tb_MaxSize = 2
@@ -256,16 +235,13 @@ nnoremap ; :
 :command QA qa
 
 
-set guifont=Ubuntu\ Mono\ 14
+set guifont=Ubuntu\ Mono\ 12
 
 if has('cscope')
     set cscopetag
     set csto=0
 
-    cs add cscope.out
     set cscopeverbose
-
-    "set cscopequickfix=s-,c-,d-,i-,t-,e-
 
     cnoreabbrev csa cs add
 
@@ -286,11 +262,11 @@ if has('cscope')
     nmap <Tab-s> :cs find s <C-R>=expand("<cword>")<CR><CR>
     nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
     nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR 
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR 
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR 
+    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
     nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR> 
+    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
 endif
