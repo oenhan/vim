@@ -136,6 +136,57 @@ filetype plugin indent on
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
 
+" 新建.c,.h,.sh,.java文件，自动插入文件头
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
+" 定义函数SetTitle，自动插入文件头
+func SetTitle()
+	"如果文件类型为.sh文件
+	if &filetype == 'sh'
+		call setline(1,"\#!/bin/bash")
+		call append(line("."), "")
+    elseif &filetype == 'python'
+        call setline(1,"#!/usr/bin/env python")
+        call append(line("."),"# coding=utf-8")
+	    call append(line(".")+1, "")
+
+    elseif &filetype == 'ruby'
+        call setline(1,"#!/usr/bin/env ruby")
+        call append(line("."),"# encoding: utf-8")
+	    call append(line(".")+1, "")
+
+"    elseif &filetype == 'mkd'
+"        call setline(1,"<head><meta charset=\"UTF-8\"></head>")
+	else
+		call setline(1, "/*************************************************************************")
+		call append(line("."), "	> File Name: ".expand("%"))
+		call append(line(".")+1, "	> Author: ")
+		call append(line(".")+2, "	> Mail: ")
+		call append(line(".")+3, "	> Created Time: ".strftime("%c"))
+		call append(line(".")+4, " ************************************************************************/")
+		call append(line(".")+5, "")
+	endif
+	if expand("%:e") == 'cpp'
+		call append(line(".")+6, "#include<iostream>")
+		call append(line(".")+7, "using namespace std;")
+		call append(line(".")+8, "")
+	endif
+	if &filetype == 'c'
+		call append(line(".")+6, "#include<stdio.h>")
+		call append(line(".")+7, "")
+	endif
+	if expand("%:e") == 'h'
+		call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
+		call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
+		call append(line(".")+8, "#endif")
+	endif
+	if &filetype == 'java'
+		call append(line(".")+6,"public class ".expand("%:r"))
+		call append(line(".")+7,"")
+	endif
+	"新建文件后，自动定位到文件末尾
+endfunc
+autocmd BufNewFile * normal G
+
 """""""""""""""""""""""""""""""""""""""""
 " 代码修改配置
 """""""""""""""""""""""""""""""""""""""""
@@ -159,6 +210,9 @@ let mapleader=";"
 " 定义快捷键到行首和行尾
 nmap LB 0
 nmap LE $
+
+" 定义git grep 快捷键
+cnoreabbrev grep !git grep
 
 " vim文本选择
 " v : 按照字符选择
@@ -243,14 +297,14 @@ if has('cscope')
     cnoreabbrev cg cs find g <cword>
     cnoreabbrev cf cs find f <cword>
 
-    nmap <Leader>fs :cs find s <cword><CR>
-    nmap <Leader>fg :cs find g <cword><CR>
-    nmap <Leader>fc :cs find c <cword><CR>
-    nmap <Leader>ft :cs find t <cword><CR>
-    nmap <Leader>fe :cs find e <cword><CR>
-    nmap <Leader>ff :cs find f <cfile><CR>
-    nmap <Leader>fi :cs find i ^<cfile>$<CR>
-    nmap <Leader>fd :cs find d <cword><CR>
+    nnoremap <C-s>s :cs find s <cword><CR>
+    nnoremap <C-s>g :cs find g <cword><CR>
+    nnoremap <C-s>c :cs find c <cword><CR>
+    nnoremap <C-s>t :cs find t <cword><CR>
+    nnoremap <C-s>e :cs find e <cword><CR>
+    nnoremap <C-s>f :cs find f <cfile><CR>
+    nnoremap <C-s>i :cs find i ^<cfile>$<CR>
+    nnoremap <C-s>d :cs find d <cword><CR>
 endif
 
 " ctags.vim
@@ -353,7 +407,7 @@ let g:tagbar_type_cpp = {
 \ }
 
 " airline
-let g:airline_theme='tomorrow'
+let g:airline_theme='base16_solarized'
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_inactive_collapse=0
@@ -367,7 +421,7 @@ endif
 let g:airline_symbols.crypt = '🔒'
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.branch = ''
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
@@ -420,7 +474,7 @@ nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 " vim-trailing-whitespace
 cnoreabbrev fixws FixWhitespace
 
-" NeoComplCache
+"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -452,16 +506,29 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  return neocomplete#close_popup() . "\<CR>"
   " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 endfunction
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
 " Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" For cursor moving in insert mode(Not recommended)
+"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+" Or set this.
+"let g:neocomplete#enable_cursor_hold_i = 1
+" Or set this.
+"let g:neocomplete#enable_insert_char_pre = 1
 
 " AutoComplPop like behavior.
 "let g:neocomplete#enable_auto_select = 1
@@ -486,5 +553,9 @@ endif
 "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 

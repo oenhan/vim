@@ -8,9 +8,9 @@ Plugin 'VundleVim/Vundle.vim'
 "------------------
 " Code Completions
 "------------------
-Plugin 'Shougo/neocomplcache'
+Plugin 'Shougo/neocomplete.vim'
 Plugin 'ervandew/supertab'
-
+Plugin 'Valloric/YouCompleteMe'
 "--------------
 " Fast editing
 "--------------
@@ -46,6 +46,8 @@ Plugin 'vim-scripts/ctags.vim'
 Plugin 'humiaozuzu/fcitx-status'
 "切换当前terminal和vim的鼠标焦点，F12
 Plugin 'nvie/vim-togglemouse'
+"VIM 字典用于filetype
+Plugin 'asins/vim-dict'
 
 "----------------------------------------
 " Syntax/Indent for language enhancement
