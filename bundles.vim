@@ -8,7 +8,6 @@ Plugin 'VundleVim/Vundle.vim'
 "------------------
 " Code Completions
 "------------------
-Plugin 'Shougo/neocomplete.vim'
 Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
 "--------------
@@ -18,6 +17,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-surround'
 Plugin 'sjl/gundo.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'vim-scripts/Smart-Tabs'
 
 "为buff自动创建不存在的目录
 Plugin 'pbrisbin/vim-mkdir'
