@@ -140,7 +140,7 @@ autocmd FileType make setlocal noexpandtab
 " 新建.c,.h,.sh,.java文件，自动插入文件头
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
 " 定义函数SetTitle，自动插入文件头
-func SetTitle()
+func! SetTitle()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
         call setline(1,"\#!/bin/bash")
@@ -192,7 +192,10 @@ autocmd BufNewFile * normal G
 " 代码修改配置
 """""""""""""""""""""""""""""""""""""""""
 " 让配置变更立即生效
-autocmd BufWritePost .vimrc source %
+autocmd! BufWritePost $HOME/.vimrc source %
+" 在另外一个vim中加载被修改过的vimrc
+cnoreabbrev vimreload so $HOME/.vimrc
+
 " 文件修改之后自动载入
 set autoread
 " 取消备份
@@ -251,12 +254,12 @@ autocmd BufReadPost *
 cmap w!! %!sudo tee >/dev/null %
 
 " eggcache vim
-:command W w
-:command WQ wq
-:command Wq wq
-:command Q q
-:command Qa qa
-:command QA qa
+:command! W w
+:command! WQ wq
+:command! Wq wq
+:command! Q q
+:command! Qa qa
+:command! QA qa
 
 """""""""""""""""""""""""""""""""""""""""
 " 插件配置
