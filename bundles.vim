@@ -15,8 +15,11 @@ Plugin 'Valloric/YouCompleteMe'
 "--------------
 "括号补全
 Plugin 'tpope/vim-surround'
+"撤销记录列表
 Plugin 'sjl/gundo.vim'
+" vim 列对齐线
 Plugin 'nathanaelkane/vim-indent-guides'
+" 自动进行tab2space转换
 Plugin 'vim-scripts/Smart-Tabs'
 
 "为buff自动创建不存在的目录
@@ -31,6 +34,8 @@ Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdtree'
 "快速文件搜索
 Plugin 'kien/ctrlp.vim'
+" /进行搜索后自动补全
+Plugin 'vim-scripts/SearchComplete'
 
 "for git cmdline
 Plugin 'tpope/vim-fugitive'
@@ -38,7 +43,9 @@ Plugin 'tpope/vim-fugitive'
 "前后空格显示告警色
 Plugin 'bronson/vim-trailing-whitespace'
 
+"生成索引
 Plugin 'vim-scripts/cscope.vim'
+Plugin 'vim-scripts/cscope_dynamic'
 Plugin 'vim-scripts/ctags.vim'
 "-------------
 " Other Utils
@@ -48,6 +55,7 @@ Plugin 'humiaozuzu/fcitx-status'
 Plugin 'nvie/vim-togglemouse'
 "VIM 字典用于filetype
 Plugin 'asins/vim-dict'
+Plugin 'vim-scripts/Mark--Karkat'
 
 "----------------------------------------
 " Syntax/Indent for language enhancement

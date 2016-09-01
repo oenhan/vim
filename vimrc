@@ -478,6 +478,11 @@ nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 " vim-trailing-whitespace
 cnoreabbrev fixws FixWhitespace
 
+"Mark 高亮多个word
+set viminfo+=!
+let g:mwAutoLoadMarks = 1
+let g:mwAutoSaveMarks = 0
+
 " YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 " 让Vim的补全菜单行为与一般IDE一致
