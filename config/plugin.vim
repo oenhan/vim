@@ -8,14 +8,14 @@ nmap ha A
 " :IH 跳到光标所在的单词对应的文件
 nmap hi IH
 
-"-----------gtags插件配置-------------------------------------------------------
+" ----------gutentags.vim插件配置-----------------------------------------------
+"yum install -y global-ctags
 set tags=./.tags;,.tags
-let $GTAGSLABEL = 'native-pygmenetc'
+let $GTAGSLABEL = 'pygments'
 let $GTAGSCONF = '/etc/gtags.conf'
 
-" ----------gutentags.vim插件配置-----------------------------------------------
 " gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+let g:gutentags_project_root = ['.git','.root','.svn','.hg','.project']
 
 " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
@@ -33,6 +33,7 @@ endif
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " 配置 ctags 的参数
+let g:gutentags_ctags_extra_args = []
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
@@ -44,40 +45,40 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " 避免多个项目数据库相互干扰,使用plus插件解决问题
 let g:gutentags_auto_add_gtags_cscope = 0
 
+"let g:gutentags_define_advanced_commands = 1
+
 " change focus to quickfix window after search (optional).
 let g:gutentags_plus_switch = 1
 
-let g:gutentags_plus_nomap = 1
-
-noremap <silent> <leader>gs :GscopeFind s <C-R><C-W><cr>
-noremap <silent> <leader>gg :GscopeFind g <C-R><C-W><cr>
-noremap <silent> <leader>gc :GscopeFind c <C-R><C-W><cr>
-noremap <silent> <leader>gt :GscopeFind t <C-R><C-W><cr>
-noremap <silent> <leader>ge :GscopeFind e <C-R><C-W><cr>
-noremap <silent> <leader>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
-noremap <silent> <leader>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
-noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
-noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
+" default keymap
+"<leader>cs	Find symbol (reference) under cursor
+"<leader>cg	Find symbol definition under cursor
+"<leader>cd	Functions called by this function
+"<leader>cc	Functions calling this function
+"<leader>ct	Find text string under cursor
+"<leader>ce	Find egrep pattern under cursor
+"<leader>cf	Find file name under cursor
+"<leader>ci	Find files #including the file name under cursor
+"<leader>ca	Find places where current symbol is assigned
 
 "----------vim-preview配置-------------------------------------------------
 "P 预览 大p关闭
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
-noremap <Leader>u :PreviewScroll -1<cr> " 往上滚动预览窗口
-noremap <leader>d :PreviewScroll +1<cr> "  往下滚动预览窗口
 
 "-----------ale 静态检查插件-----------------------------------------------
 " 对应语言需要安装相应的检查工具
-" https://github.com/w0rp/ale
-"    let g:ale_linters_explicit = 1 "除g:ale_linters指定，其他不可用
-"    let g:ale_linters = {
-"\   'cpp': ['cppcheck','clang','gcc'],
-"\   'c': ['cppcheck','clang', 'gcc'],
-"\   'python': ['pylint'],
-"\   'bash': ['shellcheck'],
-"\   'go': ['golint'],
-"\}
-"
+" yum install ShellCheck
+let g:ale_linters_explicit = 1
+let g:ale_linters = {
+  \   'bash': ['shellcheck'],
+  \   'go': ['gofmt', 'golint'],
+  \   'python': ['pylint'],
+  \   'c': ['gcc', 'cppcheck'],
+  \   'cpp': ['gcc', 'cppcheck'],
+  \   'text': [],
+  \}
+
 let g:ale_sign_column_always = 1
 let g:ale_completion_delay = 500
 let g:ale_echo_delay = 20
@@ -85,24 +86,22 @@ let g:ale_lint_delay = 500
 let g:ale_echo_msg_format = '[%linter%] %code: %%s'
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
-let g:airline#extensions#ale#enabled = 1
+
 "let g:ale_set_quickfix = 1
 "let g:ale_open_list = 1"打开quitfix对话框
 
 let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++11'
 let g:ale_c_cppcheck_options = ''
 let g:ale_cpp_cppcheck_options = ''
 let g:ale_sign_error = ">>"
 let g:ale_sign_warning = "--"
 map <F7> ::ALEToggle<CR>
 
-"-----------supertab配置--------------------------------------
-let g:SuperTabRetainCompletionType=2
-let g:SuperTabDefaultCompletionType = 'context'
-
 "-----------YCM自动补全配置-----------------------------------
-set completeopt=menu,menuone "关闭自动弹出的窗口
+"关闭自动弹出的窗口
+"set completeopt=menu,menuone
+let g:ycm_global_ycm_extra_conf= '~/.vim/config/ycm_extra_conf.py'
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_server_log_level = 'info'
@@ -111,31 +110,54 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_complete_in_strings=1
 let g:ycm_key_invoke_completion = '<c-y>'
 set completeopt=menu,menuone
+" 使用 Ctrl+y 主动触发语义补全
 noremap <c-y> <NOP>
+" 修改补全列表配色
+highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
+highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
+
 let g:ycm_semantic_triggers =  {
             \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
             \ 'cs,lua,javascript': ['re!\w{2}'],
             \ }
-let g:ycm_filetype_whitelist = {
-			\ "c":1,
-			\ "cpp":1,
-			\ "objc":1,
-			\ "sh":1,
-			\ "zsh":1,
-			\ "zimbu":1,
-			\ }
 
-let g:ycm_global_ycm_extra_conf= '/home/huaitong/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_filetype_whitelist = {
+            \ "c":1,
+            \ "cpp":1,
+            \ "go":1,
+            \ "python":1,
+            \ "sh":1,
+            \ "zsh":1,
+            \ }
+
+let g:ycm_filetype_blacklist = {
+        \ 'markdown' : 1,
+        \ 'text' : 1,
+        \ 'pandoc' : 1,
+        \ 'infolog' : 1,
+        \}
+
+"----------------echodoc.vim 配置--------------------------
+set noshowmode
 
 " -----------LeaderF 模糊文件查找-------------------------------
 " Ctrl + p 打开文件搜索
 let g:Lf_ShortcutF = '<c-p>'
-"\p 打开函数列表
-noremap <Leader>p :LeaderfFunction<cr>
+noremap <Leader>ff :LeaderfFunction<cr>
+noremap <Leader>fb :LeaderfBuffer<cr>
+noremap <Leader>ft :LeaderfTag<cr>
+noremap <Leader>fm :LeaderfMru<cr>
+noremap <Leader>fl :LeaderfLine<cr>
 
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+let g:Lf_WorkingDirectoryMode = 'Ac'
+let g:Lf_WindowHeight = 0.30
+let g:Lf_CacheDirectory = expand('~/.vim/cache')
 let g:Lf_ShowRelativePath = 0
 let g:Lf_HideHelp = 1
-let g:Lf_PreviewResult = {'Function':0, 'Colorscheme':1}
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
 let g:Lf_NormalMap = {
 	\ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>']],
@@ -183,59 +205,138 @@ nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 cnoreabbrev fixws FixWhitespace
 
 "--------------------light.vim配置-----------------------------------
+" hide mode
+set noshowmode
+" showtabline always
+set showtabline=2
+
 let g:lightline = {
       \ 'colorscheme': 'solarized',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified', 'helloworld' ] ],
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'percent' ],
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component': {
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
+      \   'mode_map': { 'c': 'NORMAL' },
+      \   'active': {
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'branch' ],
+      \               [ 'readonly', 'filename', 'modified' ] ],
+      \     'right': [ [ 'percent', 'lineinfo' ],
+      \                [ 'filetype', 'fileencoding', 'denitepath' ],
+      \                [ 'gtags' ] ],
+      \   },
+      \   'component_function': {
+      \     'mode': 'MyLightlineMode',
+      \     'branch': 'MyLightlineBranch',
+      \     'filename': 'MyLightlineFilename',
+      \     'modified': 'MyLightlineModified',
+      \     'gtags': 'MyLightlineCurrentGtags',
+      \     'filetype': 'MyLightlineFiletype',
+      \     'fileencoding': 'MyLightlineFileencoding',
+      \     'denitepath': 'MyLightlineDenitepath',
+      \     'percent': 'MyLightlinePercent',
+      \     'lineinfo': 'MyLightlineLineinfo'
+      \   },
+      \   'component_expand': {
+      \     'readonly': 'MyLightlineReadonly',
+      \   },
+      \   'component_type': {
+      \     'readonly': 'warning',
+      \   },
+      \   'subseparator': {
+      \     'left': '',
+      \     'right': ''
+      \   },
       \ }
 
-set laststatus=2
+" functions
+function! MyLightlineMode() abort
+  if &filetype ==? 'denite'
+    call lightline#link(tolower(denite#get_status('raw_mode')[0]))
+    return 'Denite'
+  endif
+  if winwidth(0) <= 60
+    return ''
+  endif
+  return lightline#mode()
+endfunction
 
-"---------------------vim-signify配置--------------------------------
-" 设置要检查的VCS
-let g:signify_vcs_list = ['git']
-" 插入模式下指定updatetime时间后无操作将缓存区交换文件写入磁盘
-let g:signify_cursorhold_insert     = 1
-" 正常模式下指定updatetime时间后无操作将缓存区交换文件写入磁盘
-let g:signify_cursorhold_normal     = 1
-" 缓冲区被修改时更新符号
-let g:signify_update_on_bufenter    = 0
-" vim获取焦点时更新符号
-let g:signify_update_on_focusgained = 1
-" 键盘映射
-nnoremap <leader>gt :SignifyToggle<CR>
-nnoremap <leader>gh :SignifyToggleHighlight<CR>
-nnoremap <leader>gr :SignifyRefresh<CR>
-nnoremap <leader>gd :SignifyDebug<CR>
-" hunk jumping
-nmap <leader>gj <plug>(signify-next-hunk)
-nmap <leader>gk <plug>(signify-prev-hunk)
-" hunk text object
-omap ic <plug>(signify-motion-inner-pending)
-xmap ic <plug>(signify-motion-inner-visual)
-omap ac <plug>(signify-motion-outer-pending)
-xmap ac <plug>(signify-motion-outer-visual)
+function! MyLightlineBranch() abort
+  if winwidth(0) <= 75 || !exists('*fugitive#head')
+    return ''
+  endif
+  return fugitive#head()
+endfunction
 
-"--------------------vim-easymotion配置-----------------------------------
-map f <Plug>(easymotion-prefix)
-map ff <Plug>(easymotion-s)
-map fs <Plug>(easymotion-f)
-map fl <Plug>(easymotion-lineforward)
-map fj <Plug>(easymotion-j)
-map fk <Plug>(easymotion-k)
-map fh <Plug>(easymotion-linebackward)
-" 忽略大小写
-let g:EasyMotion_smartcase = 1
+function! MyLightlineReadonly() abort
+  return &filetype !~? 'help\|man\|denite' && &readonly ? 'RO' : ''
+endfunction
+
+function! MyLightlineFilename() abort
+  return (&filetype ==? 'denite' ? denite#get_status('sources') :
+        \  &filetype =~? 'tagbar\|nerdtree' ? '' :
+        \  &filetype =~? 'help\|man' ? expand('%:t') :
+        \  winwidth(0) > 150 ? expand('%') :
+        \  winwidth(0) > 110 ? pathshorten(expand('%')) :
+        \ '' !=# expand('%:t') ? expand('%:t') :'[No Name]')
+endfunction
+
+function! MyLightlineModified() abort
+  return &filetype =~? 'help\|man\|denite' ? '' :
+        \ &modified ? '+' :
+        \ &modifiable ? '' : '-'
+endfunction
+
+function! MyLightlineCurrentGtags() abort
+  if winwidth(0) <= 90
+        \ || !get(g:, 'loaded_gutentags', 0)
+    return ''
+  endif
+  let msg = gutentags#statusline('[', ']')
+  return empty(msg) ? '' :  msg
+endfunction
+
+function! MyLightlineFiletype() abort
+  if winwidth(0) <= 70 || &filetype ==? 'denite'
+    return ''
+  endif
+  return &filetype
+endfunction
+
+function! MyLightlineFileencoding() abort
+  if winwidth(0) <= 70 || &filetype ==? 'denite'
+    return ''
+  endif
+  return (&fileencoding !=# '' ? &fileencoding : &encoding) .
+        \ '[' . &fileformat . ']'
+endfunction
+
+function! MyLightlineDenitepath() abort
+  if &filetype !=? 'denite'
+    return ''
+  endif
+  return substitute(denite#get_status('path'), '^[' . $HOME, '[~', '')
+endfunction
+
+function! MyLightlinePercent() abort
+  if &filetype ==? 'denite'
+    let l:line_total = denite#get_status('line_total')
+    if l:line_total[1] == 0
+      return printf('%3d%%', 100)
+    endif
+    let l:line_cursor = denite#get_status('line_cursor')
+    return printf('%3d%%', 100 * l:line_cursor / l:line_total)
+  else
+    return printf('%3d%%', 100 * line('.') / line('$'))
+  endif
+endfunction
+
+function! MyLightlineLineinfo() abort
+  return &filetype ==? 'denite' ? denite#get_status('linenr') :
+        \ printf('%3d:%-2d', line('.'), col('.'))
+endfunction
+
+augroup MyGutentagsStatusLineRefresher
+  autocmd!
+  autocmd User GutentagsUpdating call lightline#update()
+  autocmd User GutentagsUpdated call lightline#update()
+augroup END
 
 " -------------------Tab与空格之间进行转换-------------------------------------
 " Convert all leading spaces to tabs (default range is whole file):
@@ -266,3 +367,6 @@ endfunction
 command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
 command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
 command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
+
+"------------------vim-cpp-enhanced-highlight---------------------"
+let c_no_curly_error = 1

@@ -2,9 +2,22 @@
 
 basepath=$(pushd `dirname $0` > /dev/null; pwd; popd > /dev/null)
 
-yum install -y http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//vim-enhanced-8.0.003-1.gf.el7.x86_64.rpm http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//vim-filesystem-8.0.003-1.gf.el7.x86_64.rpm http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//vim-X11-8.0.003-1.gf.el7.x86_64.rpm http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//vim-common-8.0.003-1.gf.el7.x86_64.rpm http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//vim-minimal-8.0.003-1.gf.el7.x86_64.rpm
+if [ ! -f "/etc/yum.repos.d/vim-latest.repo" ];then
+    sudo curl -L https://copr.fedorainfracloud.org/coprs/lantw44/vim-latest/repo/epel-7/lantw44-vim-latest-epel-7.repo -o /etc/yum.repos.d/vim-latest.repo
+    sudo yum update -n
+    sudo yum install vim-enhanced global-ctags ShellCheck -y
+fi
 
-curl -fLo ${basepath}/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if [ ! -f "${basepath}/autoload/plug.vim" ];then
+    curl -fLo ${basepath}/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
 
-ln -sf ${basepath}/vim ~/.vim
+vim << EOF
+:PlugUpdate
+:q
+:q
+EOF
+
+rm -fr ~/.vim
+ln -sf ${basepath} ~/.vim
 ln -sf ~/.vim/vimrc ~/.vimrc

@@ -4,7 +4,7 @@
 " 定义前缀键
 let mapleader=";"
 
-" 定义快捷键到行首和行尾
+"定义快捷键到行首和行尾
 nmap LB 0
 nmap LE $
 
@@ -33,9 +33,6 @@ nnoremap wn <C-W><C-W>
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
-nmap <C-F11> :!cscope -bRq<cr>
-nmap <C-F12> :!ctags -R --c-kinds=+l+x+p --fields=+lS -I __THROW,__nonnull --extra=+ .<cr>
-
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
       \ if ! exists("g:leave_my_cursor_position_alone") |
@@ -50,7 +47,6 @@ cmap w!! %!sudo tee >/dev/null %
 " eggcache vim
 :command! W w
 :command! WQ wq
-:command! Wq wq
 :command! Q q
-:command! Qa qa
 :command! QA qa
+:command! WQA wqa

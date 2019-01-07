@@ -14,7 +14,6 @@ Plug 'bronson/vim-trailing-whitespace'
 
 " Git命令行
 Plug 'tpope/vim-fugitive'
-Plug 'mhinz/vim-signify'
 
 " vim列对齐线
 Plug 'Yggdroot/indentLine'
@@ -22,12 +21,12 @@ Plug 'Yggdroot/indentLine'
 "切换当前terminal和vim的鼠标焦点，F12
 Plug 'nvie/vim-togglemouse'
 
+"unimpaired 插件定义括号开头的快捷键，官方 Vim 中丢失的快捷键
+Plug 'tpope/vim-unimpaired'
+
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" 代码搜索配置插件 """"""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""
-" 快速跳转
-Plug 'easymotion/vim-easymotion'
-
 "模糊查找leaderf
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
@@ -70,8 +69,9 @@ Plug 'tpope/vim-surround'
 Plug 'pbrisbin/vim-mkdir'
 
 " 快速补全
-Plug 'ervandew/supertab'
 Plug 'Valloric/YouCompleteMe', {'do':'./install.py --clang-completer --go-completer'}
+"函数参数提示
+Plug 'Shougo/echodoc.vim'
 
 
 " 异步执行插件

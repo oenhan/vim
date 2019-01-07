@@ -79,7 +79,12 @@ set scrolloff=25
 
 " 高亮特殊符
 "set backspace=indent,eol,start
-"set list listchars=tab:»\ ,
+"set list
+"if has('multi_byte') && &encoding ==# 'utf-8'
+"  let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
+"else
+"  let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
+"endif
 
 " 基于缩进或语法进行代码折叠
 "set foldmethod=indent
@@ -117,9 +122,5 @@ cnoreabbrev vimreload so $HOME/.vimrc
 
 " 文件修改之后自动载入
 set autoread
-" 取消备份
-set nobackup
-" 关闭交换文件
-set noswapfile
 " 提醒退出时保存文件
 set confirm
