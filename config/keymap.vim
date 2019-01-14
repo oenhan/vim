@@ -42,7 +42,11 @@ autocmd BufReadPost *
       \ endif
 
 " w!! to sudo & write a file
-cmap w!! %!sudo tee >/dev/null %
+cnoremap w!! call SudoSaveFile()
+function! SudoSaveFile() abort
+	execute (has('gui_running') ? '' : 'silent') 'write !env SUDO_EDITOR=tee sudo -e % >/dev/null'
+	let &modified = v:shell_error
+endfunction
 
 " eggcache vim
 :command! W w
