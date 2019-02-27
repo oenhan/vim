@@ -59,6 +59,9 @@ Plug 'vim-scripts/a.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'fatih/vim-go'
 
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
 " 撤销记录列表
 Plug 'mbbill/undotree'
 
