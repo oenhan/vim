@@ -15,6 +15,7 @@ fi
 rm -fr ~/.vim
 ln -sf ${basepath} ~/.vim
 ln -sf ~/.vim/vimrc ~/.vimrc
+ln -sf ~/.vim/config/_wildignore.options ~/.cache/tags/_wildignore.options
 
 vim << EOF
 :PlugUpdate
