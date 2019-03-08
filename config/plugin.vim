@@ -1,6 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""
 " 插件配置
 """""""""""""""""""""""""""""""""""""""""
+"https://en.wikipedia.org/wiki/List_of_Unicode_characters
 
 " ----------a.vim插件配置-----------------------------------------------
 " :A 跳到与当前.c同名的.h文件
@@ -18,6 +19,7 @@ let $GTAGSCONF = '/etc/gtags.conf'
 let g:gutentags_project_root = ['.git','.root','MAINTAINERS', 'COPYING','.project']
 
 "let g:gutentags_trace = 1
+
 let g:gutentags_file_list_command = {
   \'markers': {
     \'cscope.lst': 'taglslist',
@@ -232,22 +234,22 @@ let g:lightline = {
       \               [ 'readonly', 'filename', 'modified' ] ],
       \     'right': [ [ 'percent', 'lineinfo' ],
       \                [ 'filetype', 'fileencoding', 'denitepath' ],
-      \                [ 'gtags' ] ],
+      \                [ 'gtags' ]],
       \   },
       \   'component_function': {
-      \     'mode': 'MyLightlineMode',
-      \     'branch': 'MyLightlineBranch',
-      \     'filename': 'MyLightlineFilename',
-      \     'modified': 'MyLightlineModified',
-      \     'gtags': 'MyLightlineCurrentGtags',
-      \     'filetype': 'MyLightlineFiletype',
-      \     'fileencoding': 'MyLightlineFileencoding',
-      \     'denitepath': 'MyLightlineDenitepath',
-      \     'percent': 'MyLightlinePercent',
-      \     'lineinfo': 'MyLightlineLineinfo'
+      \     'mode': 'LightlineMode',
+      \     'branch': 'LightlineBranch',
+      \     'filename': 'LightlineFilename',
+      \     'modified': 'LightlineModified',
+      \     'gtags': 'LightlineCurrentGtags',
+      \     'filetype': 'LightlineFiletype',
+      \     'fileencoding': 'LightlineFileencoding',
+      \     'denitepath': 'LightlineDenitepath',
+      \     'percent': 'LightlinePercent',
+      \     'lineinfo': 'LightlineLineinfo'
       \   },
       \   'component_expand': {
-      \     'readonly': 'MyLightlineReadonly',
+      \     'readonly': 'LightlineReadonly',
       \   },
       \   'component_type': {
       \     'readonly': 'warning',
@@ -259,7 +261,7 @@ let g:lightline = {
       \ }
 
 " functions
-function! MyLightlineMode() abort
+function! LightlineMode() abort
   if &filetype ==? 'denite'
     call lightline#link(tolower(denite#get_status('raw_mode')[0]))
     return 'Denite'
@@ -270,18 +272,18 @@ function! MyLightlineMode() abort
   return lightline#mode()
 endfunction
 
-function! MyLightlineBranch() abort
+function! LightlineBranch() abort
   if winwidth(0) <= 75 || !exists('*fugitive#head')
     return ''
   endif
   return fugitive#head()
 endfunction
 
-function! MyLightlineReadonly() abort
+function! LightlineReadonly() abort
   return &filetype !~? 'help\|man\|denite' && &readonly ? 'RO' : ''
 endfunction
 
-function! MyLightlineFilename() abort
+function! LightlineFilename() abort
   return (&filetype ==? 'denite' ? denite#get_status('sources') :
         \  &filetype =~? 'tagbar\|nerdtree' ? '' :
         \  &filetype =~? 'help\|man' ? expand('%:t') :
@@ -290,29 +292,38 @@ function! MyLightlineFilename() abort
         \ '' !=# expand('%:t') ? expand('%:t') :'[No Name]')
 endfunction
 
-function! MyLightlineModified() abort
+function! LightlineModified() abort
   return &filetype =~? 'help\|man\|denite' ? '' :
         \ &modified ? '+' :
         \ &modifiable ? '' : '-'
 endfunction
 
-function! MyLightlineCurrentGtags() abort
+function! s:get_gutentags_status(mods) abort
+    let l:msg = ''
+    if index(a:mods, 'ctags') >= 0 || index(a:mods, 'gtags_cscope') >= 0
+       let l:msg .= '♻'
+     endif
+     return l:msg
+endfunction
+
+function! LightlineCurrentGtags() abort
   if winwidth(0) <= 90
         \ || !get(g:, 'loaded_gutentags', 0)
     return ''
   endif
-  let msg = gutentags#statusline('[', ']')
+  let msg = gutentags#statusline_cb(function('<SID>get_gutentags_status'))
+"  let msg = gutentags#statusline('[', ']')
   return empty(msg) ? '' :  msg
 endfunction
 
-function! MyLightlineFiletype() abort
+function! LightlineFiletype() abort
   if winwidth(0) <= 70 || &filetype ==? 'denite'
     return ''
   endif
   return &filetype
 endfunction
 
-function! MyLightlineFileencoding() abort
+function! LightlineFileencoding() abort
   if winwidth(0) <= 70 || &filetype ==? 'denite'
     return ''
   endif
@@ -320,14 +331,14 @@ function! MyLightlineFileencoding() abort
         \ '[' . &fileformat . ']'
 endfunction
 
-function! MyLightlineDenitepath() abort
+function! LightlineDenitepath() abort
   if &filetype !=? 'denite'
     return ''
   endif
   return substitute(denite#get_status('path'), '^[' . $HOME, '[~', '')
 endfunction
 
-function! MyLightlinePercent() abort
+function! LightlinePercent() abort
   if &filetype ==? 'denite'
     let l:line_total = denite#get_status('line_total')
     if l:line_total[1] == 0
@@ -340,16 +351,17 @@ function! MyLightlinePercent() abort
   endif
 endfunction
 
-function! MyLightlineLineinfo() abort
+function! LightlineLineinfo() abort
   return &filetype ==? 'denite' ? denite#get_status('linenr') :
         \ printf('%3d:%-2d', line('.'), col('.'))
 endfunction
 
-augroup MyGutentagsStatusLineRefresher
-  autocmd!
-  autocmd User GutentagsUpdating call lightline#update()
-  autocmd User GutentagsUpdated call lightline#update()
-augroup END
+"tags状态更新后自动刷新statusline
+"augroup GutentagsStatusLineRefresher
+""    autocmd!
+""    autocmd User GutentagsUpdating call lightline#update()
+""    autocmd User GutentagsUpdated call lightline#update()
+"augroup END
 
 " -------------------Tab与空格之间进行转换-------------------------------------
 " Convert all leading spaces to tabs (default range is whole file):
