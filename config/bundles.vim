@@ -58,6 +58,7 @@ Plug 'vim-scripts/c.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'fatih/vim-go'
+Plug 'elzr/vim-json'
 
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'

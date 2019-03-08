@@ -15,14 +15,20 @@ let $GTAGSLABEL = 'pygments'
 let $GTAGSCONF = '/etc/gtags.conf'
 
 " gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
-let g:gutentags_project_root = ['cscope.lst','.git','.root','.svn','.hg','.project']
+let g:gutentags_project_root = ['.git','.root','MAINTAINERS', 'COPYING','.project']
 
+"let g:gutentags_trace = 1
 let g:gutentags_file_list_command = {
-	\ 'markers': {
-        	\ 'cscope.lst': 'cat ./cscope.lst',
-        	\ '.git': 'git ls-files',
-        \ },
-\ }
+  \'markers': {
+    \'cscope.lst': 'taglslist',
+    \'.git': 'taglslist',
+    \'MAINTAINERS': 'taglslist',
+    \'COPYING': 'taglslist',
+    \},
+\}
+
+" gtags外部参数配置文件
+let g:gutentags_gtags_options_file = '.gtags.optconf.tmp'
 
 " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
@@ -41,7 +47,7 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 " 配置 ctags 的参数
 let g:gutentags_ctags_extra_args = []
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extras=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
