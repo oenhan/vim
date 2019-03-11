@@ -30,7 +30,7 @@ let g:gutentags_file_list_command = {
 \}
 
 " gtags外部参数配置文件
-let g:gutentags_gtags_options_file = '.gtags.optconf.tmp'
+let g:gutentags_gtags_options_file = '.gtags.optconf.log'
 
 " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
