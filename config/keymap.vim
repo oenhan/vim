@@ -30,6 +30,11 @@ nmap wvsp :vsp<cr>
 " 遍历子窗口
 nnoremap wn <C-W><C-W>
 
+" 返回上一层
+" Ctrl+o
+" 返回下一层
+" Ctrl+i
+
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 
