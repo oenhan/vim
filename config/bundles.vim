@@ -24,6 +24,9 @@ Plug 'nvie/vim-togglemouse'
 "unimpaired 插件定义括号开头的快捷键，官方 Vim 中丢失的快捷键
 Plug 'tpope/vim-unimpaired'
 
+"控制VIM复制粘贴不带tab
+Plug 'ConradIrwin/vim-bracketed-paste'
+
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" 代码搜索配置插件 """"""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""
