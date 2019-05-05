@@ -56,6 +56,9 @@ Plug 'vim-scripts/Smart-Tabs'
 " 语法检查
 Plug 'w0rp/ale'
 
+" 代码格式化
+Plug 'Chiel92/vim-autoformat'
+
 " 强化具体语言文件
 Plug 'vim-scripts/c.vim'
 Plug 'vim-scripts/a.vim'

@@ -114,6 +114,24 @@ let g:ale_sign_error = ">>"
 let g:ale_sign_warning = "--"
 map <F7> ::ALEToggle<CR>
 
+"----------autoformat格式化工具配置---------------------------
+" 需要安装astyle，yapf和shfmt
+noremap <F3> :Autoformat<CR>
+
+" 选择下一个格式化工具 :NextFormatter and :PreviousFormatter
+" 查看当前的格式化工具 :CurrentFormatter
+
+let g:autoformat_autoindent = 1
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 1
+
+" 自定义格式化命令
+let g:formatters_c = "'astyle --mode=c --style=allman '"
+let g:formatters_h = '"astyle --mode=c --style=allman" '
+
+let g:formatters_cpp = "'astyle --style=google' "
+let g:formatters_hpp = "'astyle --style=google' "
+
 "-----------YCM自动补全配置-----------------------------------
 "关闭自动弹出的窗口
 "set completeopt=menu,menuone

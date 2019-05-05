@@ -100,7 +100,7 @@ set softtabstop=4
 set shiftwidth=4
 set textwidth=80
 set smarttab
-"set expandtab
+set expandtab
 
 " 根据侦测到的不同文件类型处理不同的插件和缩放
 filetype on
@@ -109,8 +109,10 @@ filetype plugin on
 filetype plugin indent on
 
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
+autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0 wrap
 autocmd FileType make setlocal noexpandtab
+autocmd FileType c,h,cpp,c++ setlocal noexpandtab
+autocmd FileType sh setlocal textwidth=0 wrap
 
 """""""""""""""""""""""""""""""""""""""""
 " 代码修改配置
