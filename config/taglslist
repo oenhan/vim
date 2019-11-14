@@ -1,59 +1,273 @@
 #!/bin/bash
 
+kernel_files_exclude_keys="
+9p
+aacraid
+accessibility
+acpi
+adfs
+affs
+afs
+agp
+aha1
+aic7xxx
+aic94xx
+alpha
+apple
+android
+arm
+atm
+auxdisplay
+be2iscsi
+befs
+berlin
+bfa
+bluetooth
+bnx2
+btrfs
+cachefiles
+cdrom
+cifs
+coda
+configfs
+cramfs
+crypto
+csiostor
+davinci
+devpts
+display
+drivers/amba
+drivers/bcma
+drivers/connector
+drivers/dca
+drivers/edac
+drivers/eisa
+drivers/extcon
+drivers/fmc
+drivers/fsi
+drivers/gnss
+drivers/hid
+drivers/hsi
+drivers/i2c
+drivers/i3c
+drivers/iio
+drivers/input
+drivers/ipack
+drivers/isdn
+drivers/leds
+drivers/mcb
+drivers/md
+drivers/media
+drivers/message
+drivers/mfd
+drivers/mmc
+drivers/mtd
+drivers/mux
+drivers/net/ethernet
+drivers/ntb
+drivers/nubus
+drivers/of
+drivers/opp
+drivers/phy
+drivers/pinctrl
+drivers/pnp
+drivers/power
+drivers/powercap
+drivers/pps
+drivers/ps3
+drivers/ptp
+drivers/pwm
+drivers/rapidio
+drivers/regulator
+drivers/remoteproc
+drivers/rpmsg
+drivers/sbus
+drivers/sfi
+drivers/sh
+drivers/siox
+drivers/slimbus
+drivers/sn
+drivers/spi
+drivers/spmi
+drivers/ssb
+drivers/tc
+drivers/tee
+drivers/thermal
+drivers/tty
+drivers/uwb
+drivers/visorbus
+drivers/vlynq
+drivers/vme
+drivers/w1
+drivers/zorro
+ecryptfs
+efivarfs
+efs
+exofs
+exportfs
+f2fs
+habanalabs
+fat
+fddi
+firewire
+firmware
+fnic
+fpga
+freevxfs
+fs/bfs
+fs/dlm
+generated
+gfs2
+git
+gpu
+hamradio
+hfs
+hfsplus
+hisilicon
+hpfs
+hwmon
+irda
+include/config
+infiniband
+input
+isofs
+jffs2
+jfs
+lguest
+libfc
+lpfc
+macintosh
+mailbox
+media
+memstick
+meson
+mod.c
+minix
+mips
+mwave
+mvebu
+nfc
+nfsd
+nilfs2
+nls
+ocfs2
+olpc
+omfs
+openpromfs
+orangefs
+parisc
+parport
+pcmcia
+pm8001
+powerpc
+pstore
+qla2xxx
+qla4xxx
+qnx4
+qnx6
+realmode
+reiserfs
+renesas
+rockchip
+romfs
+rsxxxsamsung
+s390
+samsung
+sgi-gru
+sgi-xp
+soc
+sound
+soundwire
+sparc
+spear
+staging
+sunxi
+sym53c
+sysv
+tegra
+testing
+tpm
+ubifs
+udf
+ufs
+usb
+ux500
+versatile
+video
+wan
+wireless
+wimax
+xen
+xilinx
+"
+
+qemu_files_exclude_keys="
+9pfs
+aarch
+alpha
+arm
+audio
+bios
+bsd
+capstone
+contrib
+cris
+crypto
+display
+git
+gpio
+hppa
+hw/sd
+i2c
+ipack
+libdecnumber
+libfdt
+lm32
+m68k
+microblaze
+mips
+moxie
+nios2
+openrisc
+pcmcia
+pixman
+powerpc
+pm8001
+ppc
+qga
+rom
+s390
+script
+sh4
+sparc
+stub
+tilegx
+tcg
+test
+tpm
+tricore
+ui
+unicore32
+usb
+win
+xen
+xtensa
+"
+
 function listkernel()
 {
-    find arch/x86 block Documentation drivers fs include init ipc kernel lib mm net tools usr virt \
-    \( -path "*crypto" -o -path "*git*" -o -path "*gpu*" -o -path "*firmware*" -o -path "*macintosh*" \
-	-o -path "*s390*" -o -path "*video*" -o -path "*media*" -o -path "*infiniband*" -o -path "*usb*" \
-	-o -path "*staging*" -o -path "*sound*" -o -path "*soc*" -o -path "*powerpc*" -o -path "*mips*" \
-	-o -path "*arm*" -o -path "*alpha*" -o -path "*sparc*" -o -path "*xen*" -o -path "*bluetooth*" \
-	-o -path "*input*" -o -path "*generated*" -o -path "*testing*"  -o -path "*include\/config*" \
-	-o -path "*android*" -o -path "*display*" -o -path "*wireless*" -o -path "*nfc*" -o -path "ocfs2" \
-    -o -path "*reiserfs*" -o -path "*cachefiles*" -o -path "*adfs*" -o -path "*ecryptfs*" -o -path "*befs*"  \
-    -o -path "*orangefs*" -o -path "*ufs*" -o -path "*jffs2*" -o -path "*isofs*" -o -path "*affs*"  \
-    -o -path "*cramfs*" -o -path "*dlm*" -o -path "*qnx6*" -o -path "*crypto*" -o -path "*afs*"  \
-    -o -path "*freevxfs*" -o -path "*qnx4*" -o -path "*efs*" -o -path "*nls*" -o -path "*jfs*"  \
-    -o -path "*hfsplus*" -o -path "*romfs*" -o -path "*9p*" -o -path "*hfs*" -o -path "*gfs2*" -o -path "*omfs*" \
-    -o -path "*nfsd*" -o -path "*nilfs2*" -o -path "*coda*" -o -path "*devpts*" -o -path "*configfs*"  \
-    -o -path "*fat*" -o -path "*exofs*" -o -path "*sysv*" -o -path "*efivarfs*" -o -path "*exportfs*"  \
-    -o -path "*ubifs*" -o -path "*f2fs*" -o -path "*pstore*" -o -path "*cifs*" -o -path "fs\/bfs*"  \
-    -o -path "*hpfs*" -o -path "*openpromfs*" -o -path "*minix*" -o -path "*btrfs*" -o -path "*udf*" \
-    -o -path "drivers\/accessibility*" -o -path "drivers\/amba*" -o -path "drivers\/android*" -o -path "drivers\/atm*"  \
-    -o -path "drivers\/auxdisplay*" -o -path "drivers\/bcma*" -o -path "drivers\/bluetooth*" -o -path "drivers\/cdrom*"  \
-    -o -path "drivers\/connector*" -o -path "drivers\/crypto*" -o -path "drivers\/dca*" -o -path "drivers\/edac*"  \
-    -o -path "drivers\/eisa*" -o -path "drivers\/extcon*" -o -path "drivers\/firewire*" -o -path "drivers\/firmware*"  \
-    -o -path "drivers\/fmc*" -o -path "drivers\/fpga*" -o -path "drivers\/fsi*" -o -path "drivers\/gnss*"  \
-    -o -path "drivers\/gpu*" -o -path "drivers\/hid*" -o -path "drivers\/hsi*" -o -path "drivers\/i2c*"  \
-    -o -path "drivers\/i3c*" -o -path "drivers\/iio*" -o -path "drivers\/infiniband*" -o -path "drivers\/input*"  \
-    -o -path "drivers\/ipack*" -o -path "drivers\/isdn*" -o -path "drivers\/leds*" -o -path "drivers\/macintosh*"  \
-    -o -path "drivers\/mailbox*" -o -path "drivers\/mcb*" -o -path "drivers\/md*" -o -path "drivers\/media*"  \
-    -o -path "drivers\/memstick*" -o -path "drivers\/message*" -o -path "drivers\/mfd*" -o -path "drivers\/mmc*"  \
-    -o -path "drivers\/mtd*" -o -path "drivers\/mux*" -o -path "drivers\/nfc*" -o -path "drivers\/ntb*"  \
-    -o -path "drivers\/nubus*" -o -path "drivers\/of*" -o -path "drivers\/opp*" -o -path "drivers\/parisc*"  \
-    -o -path "drivers\/parport*" -o -path "drivers\/pcmcia*" -o -path "drivers\/phy*" -o -path "drivers\/pinctrl*"  \
-    -o -path "drivers\/pnp*" -o -path "drivers\/power*" -o -path "drivers\/powercap*" -o -path "drivers\/pps*"  \
-    -o -path "drivers\/ps3*" -o -path "drivers\/ptp*" -o -path "drivers\/pwm*" -o -path "drivers\/rapidio*"  \
-    -o -path "drivers\/regulator*" -o -path "drivers\/remoteproc*" -o -path "drivers\/rpmsg*" -o -path "drivers\/s390*"  \
-    -o -path "drivers\/sbus*" -o -path "drivers\/sfi*" -o -path "drivers\/sh*" -o -path "drivers\/siox*"  \
-    -o -path "drivers\/slimbus*" -o -path "drivers\/sn*" -o -path "drivers\/soc*" -o -path "drivers\/soundwire*"  \
-    -o -path "drivers\/spi*" -o -path "drivers\/spmi*" -o -path "drivers\/ssb*" -o -path "drivers\/staging*"  \
-    -o -path "drivers\/tc*" -o -path "drivers\/tee*" -o -path "drivers\/thermal*" -o -path "drivers\/usb*"  \
-    -o -path "drivers\/uwb*" -o -path "drivers\/video*" -o -path "drivers\/visorbus*" -o -path "drivers\/vlynq*"  \
-    -o -path "drivers\/vme*" -o -path "drivers\/w1*" -o -path "drivers\/xen*" -o -path "drivers\/zorro*" \
-    \) -prune -o -type f -name "*.[c,h,txt,S]" -print | sort | uniq -i
+    prune_params="$(for key in $(echo $kernel_files_exclude_keys | sed 's/\//\\\//g');do echo -n '-path "*'$key'*" -o ';done)"
+    prune_params="$(echo $prune_params | cut -c 1-$(expr ${#prune_params} - 3))"
+
+    bash -c "find arch/x86 block Documentation drivers fs include init ipc kernel lib mm net tools usr virt ${prune_params} -prune -o -type f -name \"*.[c,h,txt,S]\" -print | sort | uniq -i"
 }
 
 function listqemu()
 {
-    find . \
-    \( -path "*test*" -o -path "*stub*" -o -path "*git*" -o -path "*tcg*" -o -path "*audio*" \
-	-o -path "*bsd*" -o -path "*contrib*" -o -path "*crypto*" -o -path "*alpha*" -o -path "*arm*" \
-	-o -path "*hppa*" -o -path "*cris*" -o -path "*i2c*" -o -path "*ipack*" -o -path "*lm32*" \
-	-o -path "*m68k*" -o -path "*microblaze*" -o -path "*mips*" -o -path "*moxie*" -o -path "*nios2*" \
-	-o -path "*openrisc*" -o -path "*ppc*" -o -path "*pcmcia*" -o -path "*s390x*" -o -path "*sh4*" \
-	-o -path "*sparc*" -o -path "*unicore32*" -o -path "*xtensa*" -o -path "*bios*" -o -path "*rom*" \
-	-o -path "*pixman*" -o -path "*tricore*" -o -path "*script*" \) -prune \
-    -o -type f -name "*.[c,h,txt,S]" -print | sort | uniq -i
+    prune_params="$(for key in $(echo $qemu_files_exclude_keys | sed 's/\//\\\//g');do echo -n '-path "*'$key'*" -o ';done)"
+    prune_params="$(echo $prune_params | cut -c 1-$(expr ${#prune_params} - 3))"
+
+    bash -c "find . ${prune_params} -prune -o -type f -name \"*.[c,h,txt,S]\" -print  | sort | uniq -i"
 }
 
 function listother()
@@ -80,19 +294,21 @@ function get_project_type()
     echo other
 }
 
-function main()
+function taglistraw()
 {
-    if [ -z "$1"];then
-       root="."
+    if [ -z "$1" ];then
+        root="."
     else
         root="$1"
     fi
 
     pushd "${root}" > /dev/null
+
     project_type="$(get_project_type)"
     eval "list${project_type}"
+
     popd > /dev/null
 }
 
-main $@
+taglistraw $@
 exit $?

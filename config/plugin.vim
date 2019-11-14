@@ -132,45 +132,6 @@ let g:formatters_h = '"astyle --mode=c --style=allman" '
 let g:formatters_cpp = "'astyle --style=google' "
 let g:formatters_hpp = "'astyle --style=google' "
 
-"-----------YCM自动补全配置-----------------------------------
-"关闭自动弹出的窗口
-"set completeopt=menu,menuone
-let g:ycm_global_ycm_extra_conf= '~/.vim/config/ycm_extra_conf.py'
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_server_log_level = 'info'
-let g:ycm_min_num_identifier_candidate_chars = 2
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_complete_in_strings=1
-let g:ycm_key_invoke_completion = '<c-y>'
-set completeopt=menu,menuone
-" 使用 Ctrl+y 主动触发语义补全
-noremap <c-y> <NOP>
-" 修改补全列表配色
-highlight PMenu ctermfg=0 ctermbg=242 guifg=black guibg=darkgrey
-highlight PMenuSel ctermfg=242 ctermbg=8 guifg=darkgrey guibg=black
-
-let g:ycm_semantic_triggers =  {
-            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-            \ 'cs,lua,javascript': ['re!\w{2}'],
-            \ }
-
-let g:ycm_filetype_whitelist = {
-            \ "c":1,
-            \ "cpp":1,
-            \ "go":1,
-            \ "python":1,
-            \ "sh":1,
-            \ "zsh":1,
-            \ }
-
-let g:ycm_filetype_blacklist = {
-        \ 'markdown' : 1,
-        \ 'text' : 1,
-        \ 'pandoc' : 1,
-        \ 'infolog' : 1,
-        \}
-
 "----------------echodoc.vim 配置--------------------------
 set noshowmode
 

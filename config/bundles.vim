@@ -78,11 +78,8 @@ Plug 'tpope/vim-surround'
 " 为buff自动创建不存在的目录
 Plug 'pbrisbin/vim-mkdir'
 
-" 快速补全
-Plug 'Valloric/YouCompleteMe', {'do':'./install.py --clang-completer --go-completer'}
 "函数参数提示
 Plug 'Shougo/echodoc.vim'
-
 
 " 异步执行插件
 Plug 'skywind3000/asyncrun.vim'
