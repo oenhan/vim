@@ -10,7 +10,10 @@ Plug 'justinmk/vim-dirvish'
 Plug 'itchyny/lightline.vim'
 
 " 前后空格显示告警色
-Plug 'bronson/vim-trailing-whitespace'
+Plug 'ntpeters/vim-better-whitespace'
+
+" 高亮指定的单词
+Plug 'BjornMulder/vim-highlight'
 
 " Git命令行
 Plug 'tpope/vim-fugitive'

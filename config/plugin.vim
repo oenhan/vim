@@ -249,8 +249,18 @@ let g:indent_guides_guide_size=1
 " 快捷键 i 开/关缩进可视化
 nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 
-"-------vim-trailing-whitespace显示告警颜色------------------------------
-cnoreabbrev fixws FixWhitespace
+"------------vim-highlight高亮指定单词----------------------
+
+"-------vim_better_whitespace显示告警颜色------------------------------
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:strip_only_modified_lines=1
+let g:strip_whitelines_at_eof=1
+let g:show_spaces_that_precede_tabs=1
+let g:diff_binary='/usr/bin/diff -E'
+let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
+
+cnoreabbrev stripws StripWhitespace
 
 "--------------------light.vim配置-----------------------------------
 " hide mode
