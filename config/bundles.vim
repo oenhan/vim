@@ -59,6 +59,9 @@ Plug 'vim-scripts/Smart-Tabs'
 " 语法检查
 Plug 'w0rp/ale'
 
+"coc.vim语义补全
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " 代码格式化
 Plug 'Chiel92/vim-autoformat'
 
