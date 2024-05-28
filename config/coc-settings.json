@@ -1,0 +1,57 @@
+{
+    "coc.preferences.enableMarkdown": true,
+    "coc.preferences.extensionUpdateCheck": "weekly",
+    "coc.preferences.formatOnSave": false,
+    "coc.preferences.messageLevel": "more",
+
+    "callHierarchy.splitCommand": "botright 60vs",
+    "typeHierarchy.splitCommand": "botright 60vs",
+
+    "codeLens.enable": true,
+    "codeLens.position": "top",
+
+    "colors.enable": true,
+    "semanticTokens.enable": true,
+
+    "workspace.rootPatterns": ["compile_commands.json", "rust-project.json", ".git"],
+
+    "list.alignColumns": true,
+    "list.extendedSearchMode": true,
+    "list.floatPreview": true,
+    "list.indicator": "❯",
+
+    "notification.border": true,
+    "notification.timeout": 10000,
+    "notification.statusLineProgress": true,
+
+    "outline.autoWidth": true,
+    "outline.autoPreview": true,
+
+    "clangd.checkUpdates": true,
+    "clangd.disableProgressNotifications": false,
+    "clangd.inactiveRegions.useBackgroundHighlight": true,
+    "clangd.rootPatterns": [
+        "compile_commands.json",
+        "rust-project.json",
+        ".git"
+    ],
+    "clangd.initializationOptions.cache.directory": [".cache/clangd"],
+    "clangd.arguments": [
+        "-j=16",
+        "--background-index",
+        "--query-driver=/usr/bin/clang++",
+        "--clang-tidy",
+        "--all-scopes-completion",
+        "--completion-style=bundled",
+        "--pch-storage=memory",
+        "--pretty",
+        "--malloc-trim"
+    ],
+
+    "rust-analyzer.enable": true,
+    "rust-analyzer.assist.emitMustUse": true,
+    "rust-analyzer.cargo.buildScripts.overrideCommand": null,
+    "rust-analyzer.linkedProjects": [
+        "rust-project.json"
+    ]
+}

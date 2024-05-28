@@ -2,7 +2,7 @@
 " OENHAN'S VIM CONFIG
 "
 " Maintainer:	OenHan <oenhan#gmail.com>
-" Last change:	2018-12-26
+" Last change:	2024-05-19
 """"""""""""""""""""""""""""""""""""""""""""'"
 
 source ~/.vim/config/bundles.vim

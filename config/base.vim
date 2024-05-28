@@ -34,6 +34,9 @@ set gcr=a:block-blinkon0
 " 好处：误删什么的，如果以前屏幕打开，可以找回
 set t_ti= t_te=
 
+" 配置clipboard
+set clipboard=unnamed
+
 """""""""""""""""""""""""""""""""""""""""
 " 内容显示配置
 """""""""""""""""""""""""""""""""""""""""
@@ -41,15 +44,17 @@ set t_ti= t_te=
 syntax on
 syntax enable
 
-" 告诉vim terminal支持 256 colors
+" support 256 colors
 set t_Co=256
+
+" support true color
+if has("termguicolors")
+    set termguicolors
+endif
 
 " color scheme
 set background=dark
-color solarized
-
-"color monokai
-"colors Tomorrow-Night-Eighties
+color onedark
 
 """""""""""""""""""""""""""""""""""""""""
 " 代码查看配置

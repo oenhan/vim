@@ -9,116 +9,16 @@ nmap ha A
 " :IH 跳到光标所在的单词对应的文件
 nmap hi IH
 
-" ----------gutentags.vim插件配置-----------------------------------------------
-"yum install -y global-ctags
-set tags=./.tags;,.tags
-let $GTAGSLABEL = 'pygments'
-if has('unix')
-    if system('uname -s') == "Darwin\n"
-        let $GTAGSLABEL = '/usr/local/etc/gtags.conf'
-    else
-        let $GTAGSCONF = '/etc/gtags.conf'
-    endif
-endif
-
-" gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
-let g:gutentags_project_root = ['.git','.root','MAINTAINERS', 'COPYING','.project']
-
-"let g:gutentags_trace = 1
-
-let g:gutentags_file_list_command = {
-  \'markers': {
-    \'cscope.lst': 'taglslist',
-    \'.git': 'taglslist',
-    \'MAINTAINERS': 'taglslist',
-    \'COPYING': 'taglslist',
-    \},
-\}
-
-" gtags外部参数配置文件
-let g:gutentags_gtags_options_file = '.gtags.optconf.log'
-
-" 所生成的数据文件的名称
-let g:gutentags_ctags_tagfile = '.tags'
-
-" 同时开启 ctags 和 gtags 支持：
-let g:gutentags_modules = []
-if executable('ctags')
-	let g:gutentags_modules += ['ctags']
-endif
-if executable('gtags-cscope') && executable('gtags')
-	let g:gutentags_modules += ['gtags_cscope']
-endif
-
-" 将自动生成的 ctags/gtags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
-let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-" 配置 ctags 的参数
-let g:gutentags_ctags_extra_args = []
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extras=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-
-" 如果使用 universal ctags 需要增加下面一行
-let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
-
-" 禁用 gutentags 自动加载 gtags 数据库的行为
-" 避免多个项目数据库相互干扰,使用plus插件解决问题
-let g:gutentags_auto_add_gtags_cscope = 0
-
-"let g:gutentags_define_advanced_commands = 1
-
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
-
-" default keymap
-"<leader>cs	Find symbol (reference) under cursor
-"<leader>cg	Find symbol definition under cursor
-"<leader>cd	Functions called by this function
-"<leader>cc	Functions calling this function
-"<leader>ct	Find text string under cursor
-"<leader>ce	Find egrep pattern under cursor
-"<leader>cf	Find file name under cursor
-"<leader>ci	Find files #including the file name under cursor
-"<leader>ca	Find places where current symbol is assigned
+" 复制粘贴
+"let g:system_copy_enable_osc52 = 1
+let g:system_copy_silent = 1
+"let g:system_copy#copy_command='xclip -sel clipboard'
+"let g:system_copy#paste_command='xclip -sel clipboard -o'
 
 "----------vim-preview配置-------------------------------------------------
 "P 预览 大p关闭
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
-
-"-----------ale 静态检查插件-----------------------------------------------
-" 对应语言需要安装相应的检查工具
-" yum install ShellCheck
-let g:ale_enabled = 0
-let g:ale_linters_explicit = 1
-let g:ale_linters = {
-  \   'bash': ['shellcheck'],
-  \   'go': ['gofmt', 'golint'],
-  \   'python': ['pylint'],
-  \   'c': ['gcc', 'cppcheck'],
-  \   'cpp': ['gcc', 'cppcheck'],
-  \   'text': [],
-  \}
-
-let g:ale_sign_column_always = 1
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_lint_delay = 500
-let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-
-"let g:ale_set_quickfix = 1
-"let g:ale_open_list = 1"打开quitfix对话框
-
-let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++11'
-let g:ale_c_cppcheck_options = ''
-let g:ale_cpp_cppcheck_options = ''
-let g:ale_sign_error = ">>"
-let g:ale_sign_warning = "--"
-map <F7> ::ALEToggle<CR>
 
 "----------autoformat格式化工具配置---------------------------
 " 需要安装astyle，yapf和shfmt
@@ -142,85 +42,205 @@ let g:formatters_hpp = "'astyle --style=google' "
 set noshowmode
 
 " -----------LeaderF 模糊文件查找-------------------------------
-" Ctrl + p 打开文件搜索
-let g:Lf_ShortcutF = '<c-p>'
-noremap <Leader>ff :LeaderfFunction<cr>
-noremap <Leader>fb :LeaderfBuffer<cr>
-noremap <Leader>ft :LeaderfTag<cr>
-noremap <Leader>fm :LeaderfMru<cr>
-noremap <Leader>fl :LeaderfLine<cr>
+" <C-R>    : 在模糊查询和正则表达式模式间切换
+" <C-F>    : 在全路径搜索和名字搜索模式间切换
+" <Tab>    : 切换成normal模式
+" <F5>     : 刷新缓存
+" <C-Up>   : 在预览popup窗口里滚动向上
+" <C-Down> : 在预览popup窗口里滚动向下
 
-let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
-let g:Lf_WorkingDirectoryMode = 'Ac'
-let g:Lf_WindowHeight = 0.30
-let g:Lf_CacheDirectory = expand('~/.vim/cache')
-let g:Lf_ShowRelativePath = 0
 let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+let g:Lf_WindowHeight = 0.30
+let g:Lf_ShowRelativePath = 0
+let g:Lf_ShowDevIcons = 0
+
+let g:Lf_DefaultExternalTool='rg'
+"let g:Lf_WindowPosition = 'popup'
+let g:Lf_WorkingDirectoryMode = 'AF'
+let g:Lf_CacheDirectory = expand('~/.cache')
 let g:Lf_StlColorscheme = 'powerline'
-let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+let g:Lf_RootMarkers = ['.git', '.hg', '.svn', '.root','MAINTAINERS', 'COPYING','.project']
 
-let g:Lf_NormalMap = {
-	\ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>']],
-	\ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<CR>']],
-	\ "Mru":    [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<CR>']],
-	\ "Tag":    [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<CR>']],
-	\ "Function":    [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<CR>']],
-	\ "Colorscheme":    [["<ESC>", ':exec g:Lf_py "colorschemeExplManager.quit()"<CR>']],
-	\ }
+let g:Lf_WildIgnore = {
+  \ 'dir': ['.git', '__pycache__', '.DS_Store', '*_cache'],
+  \ 'file': ['*.exe', '*.dll', '*.so', '*.o', '*.pyc', '*.jpg', '*.png',
+  \ '*.gif', '*.svg', '*.ico', '*.db', '*.tgz', '*.tar.gz', '*.gz',
+  \ '*.zip', '*.bin', '*.pptx', '*.xlsx', '*.docx', '*.pdf', '*.tmp',
+  \ '*.wmv', '*.mkv', '*.mp4', '*.rmvb', '*.ttf', '*.ttc', '*.otf',
+  \ '*.mp3', '*.aac']
+  \}
 
-"---------------------Dirvish 目录查找配置-----------------------------
-" Don't need netrw
-let g:loaded_netrwPlugin = 1
+let g:Lf_PreviewResult = {
+        \ 'File': 0,
+        \ 'Buffer': 0,
+        \ 'Mru': 0,
+        \ 'Tag': 0,
+        \ 'BufTag': 1,
+        \ 'Function': 1,
+        \ 'Line': 1,
+        \ 'Colorscheme': 0,
+        \ 'Rg': 0,
+        \ 'Gtags': 0
+        \}
 
-function! s:dirvish_toggle_hidden()
-  if get(b:, 'dirvish_show_dot_files')
-    keeppatterns g@\v/\.[^\/]+/?$@d
-    let b:dirvish_show_dot_files = 0
+let g:Lf_ShortcutF = '<c-p>'
+" navigate functions or methods in the buffer
+noremap <leader>ff :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
+" Search tags in current buffer
+nnoremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+" search a line in the buffer
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+" search buffers
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+" search most recently used files
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+" Search vim help files
+nnoremap <leader>fh :<C-U><C-R>=printf("Leaderf help %s", "")<CR><CR>
+
+
+let g:Lf_RgConfig = [
+        \ "--max-columns=150",
+        \ "--type-add web:*.{html,css,js}*",
+        \ "--glob=!git/*",
+        \ "--hidden"
+    \ ]
+
+noremap <leader>fs :<C-U><C-R>=printf("Leaderf rg --live %s", "")<CR><CR>
+" search word under cursor, the pattern is treated as regex
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search word under cursor literally only in current buffer
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+" append the result to previous search results.
+noremap <C-G> :<C-U><C-R>=printf("Leaderf! rg --append -e %s ", expand("<cword>"))<CR>
+
+let g:Lf_Global = '/usr/bin/global'
+let g:Lf_Gtags = '/usr/bin/gtags'
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_GtagsAutoUpdate = 0
+let g:Lf_GtagsSource = 1
+let g:Lf_Gtagsconf = expand('/etc/gtags/gtags.conf')
+let g:Lf_Gtagslabel = 'native-pygments'
+
+noremap <leader>fg :<C-U><C-R>=printf("Leaderf gtags %s", "")<CR><CR>
+noremap <leader>fu :<C-U><C-R>=printf("Leaderf! gtags --update")<CR><CR>
+
+" search current word
+"noremap <leader>fs :<C-U><C-R>=printf("Leaderf! gtags -s %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+
+"-----------------------coc.nvim----------------------------------------------
+let g:coc_config_home = '~/.vim/config/coc-settings.json'
+let g:coc_global_extensions = [ 'coc-lists', 'coc-highlight', 'coc-clangd', 'coc-rust-analyzer', 'coc-json' ]
+
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" GoTo code navigation
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+
+nmap <leader>gc :call CocActionAsync('showIncomingCalls')<CR>
+nmap <leader>gt :call CocActionAsync('showSuperTypes')<CR>
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
   else
-    let b:dirvish_show_dot_files = 1
-    call dirvish#open(@%)
+    call feedkeys('K', 'in')
   endif
 endfunction
 
-function! s:escaped(first, last) abort
-  let l:files = getline(a:first, a:last)
-  call filter(l:files, 'v:val !~# "^\" "')
-  call map(l:files, 'substitute(v:val, "[/*|@=]\\=\\%(\\t.*\\)\\=$", "", "")')
-  return join(l:files, ' ')
-endfunction
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-let s:escape_pattern = 'substitute(escape(v:val, ".$~"), "*", ".*", "g")'
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
 
-function! s:setup_dirvish()
-  let b:dirvish_show_dot_files = 1
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
 
-  " Make fugitive work
-  call fugitive#detect(@%)
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-  " Hide ignored files
-  for pattern in map(split(&wildignore, ','), s:escape_pattern)
-    execute 'silent keeppatterns g/^' . pattern . '$/d'
-  endfor
+" Add `:Format` command to format current buffer
+command! -nargs=0 Format :call CocActionAsync('format')
 
-  " Toggle display of hidden files with `gh`
-  nnoremap <buffer> <silent> gh :<c-u>call <SID>dirvish_toggle_hidden()<cr>
+" Add `:Fold` command to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-  " ~ displays the $HOME directory
-  nnoremap <buffer> ~ :<c-u>Dirvish ~<cr>
+" Add (Neo)Vim's native statusline support
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-  " . populates the file under the cursor on the command line
-  nnoremap <buffer> . :<c-u> <c-r>=<SID>escaped(line('.'), line('.') - 1 + v:count1)<cr><Home>
-  nmap <buffer> ! .!
+" Show commands
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Show all diagnostics
+nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Find symbol of current document
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Resume latest coc list
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-  " open the file under cursor in a horizontal split
-  nmap <buffer> s .sp<cr>
-endfunction
+" Do default action for next item
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 
-augroup dirvish_events
-  autocmd!
-  autocmd FileType dirvish call s:setup_dirvish()
-augroup END
+
+"-----------------------vim-auto-popmenu--------------------------------------
+" 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
+let g:apc_enable_ft = {'text':1, 'markdown':1, 'php':1}
+
+" 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
+set cpt=.,k,w,b
+
+" 不要自动选中第一个选项。
+set completeopt=menu,menuone,noselect
+
+" 禁止在下方显示一些啰嗦的提示
+set shortmess+=c
 
 "----------asyncrun.vim插件配置--------------------------------------------
 " 自动打开 quickfix window ，高度为 6
@@ -255,7 +275,6 @@ let g:indent_guides_guide_size=1
 " 快捷键 i 开/关缩进可视化
 nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 
-"------------vim-highlight高亮指定单词----------------------
 
 "-------vim_better_whitespace显示告警颜色------------------------------
 let g:better_whitespace_enabled=1
@@ -275,27 +294,27 @@ set noshowmode
 set showtabline=2
 
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'onedark',
       \   'mode_map': { 'c': 'NORMAL' },
       \   'active': {
       \     'left': [ [ 'mode', 'paste' ],
-      \               [ 'branch' ],
-      \               [ 'readonly', 'filename', 'modified' ] ],
+      \               [ 'readonly', 'filename', 'modified' ],
+      \               [ 'branch', 'cocdiag'] ],
       \     'right': [ [ 'percent', 'lineinfo' ],
-      \                [ 'filetype', 'fileencoding', 'denitepath' ],
-      \                [ 'gtags' ]],
+      \                [ 'filetype', 'fileencoding' ],
+      \                [ 'cocstatus' ] ],
       \   },
       \   'component_function': {
       \     'mode': 'LightlineMode',
-      \     'branch': 'LightlineBranch',
+      \     'branch': 'LightlineFugitive',
       \     'filename': 'LightlineFilename',
       \     'modified': 'LightlineModified',
-      \     'gtags': 'LightlineCurrentGtags',
       \     'filetype': 'LightlineFiletype',
       \     'fileencoding': 'LightlineFileencoding',
-      \     'denitepath': 'LightlineDenitepath',
       \     'percent': 'LightlinePercent',
-      \     'lineinfo': 'LightlineLineinfo'
+      \     'lineinfo': 'LightlineLineinfo',
+      \     'cocdiag': 'LightlineStatusDiagnostic',
+      \     'cocstatus': 'coc#status'
       \   },
       \   'component_expand': {
       \     'readonly': 'LightlineReadonly',
@@ -304,65 +323,45 @@ let g:lightline = {
       \     'readonly': 'warning',
       \   },
       \   'subseparator': {
-      \     'left': '',
+      \     'left':  '',
       \     'right': ''
       \   },
       \ }
 
 " functions
 function! LightlineMode() abort
-  if &filetype ==? 'denite'
-    call lightline#link(tolower(denite#get_status('raw_mode')[0]))
-    return 'Denite'
-  endif
   if winwidth(0) <= 60
     return ''
   endif
   return lightline#mode()
 endfunction
 
-function! LightlineBranch() abort
-  if winwidth(0) <= 75 || !exists('*fugitive#head')
-    return ''
-  endif
-  return fugitive#head()
-endfunction
-
 function! LightlineReadonly() abort
-  return &filetype !~? 'help\|man\|denite' && &readonly ? 'RO' : ''
+	return &ft !~? 'help\|vimfiler' && &readonly ? 'RO' : ''
 endfunction
 
-function! LightlineFilename() abort
-  return (&filetype ==? 'denite' ? denite#get_status('sources') :
-        \  &filetype =~? 'tagbar\|nerdtree' ? '' :
-        \  &filetype =~? 'help\|man' ? expand('%:t') :
-        \  winwidth(0) > 150 ? expand('%') :
-        \  winwidth(0) > 110 ? pathshorten(expand('%')) :
-        \ '' !=# expand('%:t') ? expand('%:t') :'[No Name]')
+function! LightlineFilename()
+		return (LightlineReadonly() !=# '' ? LightlineReadonly() . ' ' : '') .
+		\ (&ft ==# 'vimfiler' ? vimfiler#get_status_string() :
+		\  &ft ==# 'unite' ? unite#get_status_string() :
+		\ expand('%:t') !=# '' ? expand('%:t') : '[No Name]') .
+		\ (LightlineModified() !=# '' ? ' ' . LightlineModified() : '')
 endfunction
 
 function! LightlineModified() abort
-  return &filetype =~? 'help\|man\|denite' ? '' :
-        \ &modified ? '+' :
-        \ &modifiable ? '' : '-'
+	return &ft =~# 'help\|vimfiler' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
-function! s:get_gutentags_status(mods) abort
-    let l:msg = ''
-    if index(a:mods, 'ctags') >= 0 || index(a:mods, 'gtags_cscope') >= 0
-       let l:msg .= '♻'
-     endif
-     return l:msg
-endfunction
-
-function! LightlineCurrentGtags() abort
-  if winwidth(0) <= 90
-        \ || !get(g:, 'loaded_gutentags', 0)
-    return ''
-  endif
-  let msg = gutentags#statusline_cb(function('<SID>get_gutentags_status'))
-"  let msg = gutentags#statusline('[', ']')
-  return empty(msg) ? '' :  msg
+function! LightlineFugitive()
+  try
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*FugitiveHead')
+      let mark = '@'
+      let branch = FugitiveHead()
+      return branch !=# '' ? mark.branch : ''
+    endif
+  catch
+  endtry
+  return ''
 endfunction
 
 function! LightlineFiletype() abort
@@ -380,37 +379,28 @@ function! LightlineFileencoding() abort
         \ '[' . &fileformat . ']'
 endfunction
 
-function! LightlineDenitepath() abort
-  if &filetype !=? 'denite'
-    return ''
-  endif
-  return substitute(denite#get_status('path'), '^[' . $HOME, '[~', '')
-endfunction
-
 function! LightlinePercent() abort
-  if &filetype ==? 'denite'
-    let l:line_total = denite#get_status('line_total')
-    if l:line_total[1] == 0
-      return printf('%3d%%', 100)
-    endif
-    let l:line_cursor = denite#get_status('line_cursor')
-    return printf('%3d%%', 100 * l:line_cursor / l:line_total)
-  else
-    return printf('%3d%%', 100 * line('.') / line('$'))
-  endif
+  return printf('%3d%%', 100 * line('.') / line('$'))
 endfunction
 
 function! LightlineLineinfo() abort
-  return &filetype ==? 'denite' ? denite#get_status('linenr') :
-        \ printf('%3d:%-2d', line('.'), col('.'))
+  return printf('%3d:%-2d', line('.'), col('.'))
 endfunction
 
-"tags状态更新后自动刷新statusline
-"augroup GutentagsStatusLineRefresher
-""    autocmd!
-""    autocmd User GutentagsUpdating call lightline#update()
-""    autocmd User GutentagsUpdated call lightline#update()
-"augroup END
+function! LightlineStatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, 'E' . info['error'])
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, 'W' . info['warning'])
+  endif
+endfunction
+
+" Use autocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 " -------------------Tab与空格之间进行转换-------------------------------------
 " Convert all leading spaces to tabs (default range is whole file):

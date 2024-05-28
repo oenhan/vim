@@ -3,9 +3,6 @@ call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" IDE 界面配置插件 """"""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""
-" 目录进退
-Plug 'justinmk/vim-dirvish'
-
 " 底层状态条
 Plug 'itchyny/lightline.vim'
 
@@ -17,6 +14,7 @@ Plug 'BjornMulder/vim-highlight'
 
 " Git命令行
 Plug 'tpope/vim-fugitive'
+Plug 'APZelos/blamer.nvim'
 
 " vim列对齐线
 Plug 'Yggdroot/indentLine'
@@ -30,18 +28,22 @@ Plug 'tpope/vim-unimpaired'
 "控制VIM复制粘贴不带tab
 Plug 'ConradIrwin/vim-bracketed-paste'
 
+"vim粘贴板
+"apt install xsel
+Plug 'christoomey/vim-system-copy'
+Plug 'ojroques/vim-oscyank'
+
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" 代码搜索配置插件 """"""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""
 "模糊查找leaderf
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-
-" 自动后台更新ctags
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
 "搜索栏预览
 Plug 'skywind3000/vim-preview'
+
+"LSP语义服务器
+Plug 'neoclide/coc.nvim',{'branch':'release'}
 
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" 代码格式配置插件 """"""""""""""""
@@ -56,11 +58,9 @@ Plug 'vim-scripts/Smart-Tabs'
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" 代码编辑配置插件 """"""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""
-" 语法检查
-Plug 'w0rp/ale'
-
-"coc.vim语义补全
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" 快速简单补全
+Plug 'skywind3000/vim-auto-popmenu'
+Plug 'skywind3000/vim-dict'
 
 " 代码格式化
 Plug 'Chiel92/vim-autoformat'
@@ -93,7 +93,8 @@ Plug 'skywind3000/asyncrun.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""" 代码染色配置插件 """"""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'altercation/vim-colors-solarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'crusoexia/vim-monokai'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
